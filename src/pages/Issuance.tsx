@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 
+
 const IssuancePage: React.FC = () => {
   const [credentialJson, setCredentialJson] = useState('');
   const [response, setResponse] = useState<string | null>(null);
@@ -9,8 +10,10 @@ const IssuancePage: React.FC = () => {
     setError(null);
     setResponse(null);
     try {
+      console.log(import.meta.env)
       const parsed = JSON.parse(credentialJson);
-      const res = await fetch(process.env.REACT_APP_ISSUANCE_URL!, {
+      console.log(import.meta.env.VITE_REACT_APP_ISSUANCE_URL)
+      const res = await fetch(import.meta.env.VITE_REACT_APP_ISSUANCE_URL!, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(parsed)
@@ -20,6 +23,7 @@ const IssuancePage: React.FC = () => {
       if (!res.ok) setError(data.message || 'Error issuing credential');
       else setResponse(JSON.stringify(data, null, 2));
     } catch (e) {
+      console.error(e)
       setError('Invalid JSON format');
     }
   };
