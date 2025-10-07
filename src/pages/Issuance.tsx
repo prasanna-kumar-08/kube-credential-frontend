@@ -10,11 +10,12 @@ const IssuancePage: React.FC = () => {
     setResponse(null);
     try {
       const parsed = JSON.parse(credentialJson);
-      const res = await fetch('http://localhost:3000/issue', { // Change URL to your BE Issuance service
+      const res = await fetch(process.env.REACT_APP_ISSUANCE_URL!, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(parsed)
       });
+
       const data = await res.json();
       if (!res.ok) setError(data.message || 'Error issuing credential');
       else setResponse(JSON.stringify(data, null, 2));

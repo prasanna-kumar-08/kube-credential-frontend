@@ -10,11 +10,12 @@ const VerificationPage: React.FC = () => {
     setResponse(null);
     try {
       const parsed = JSON.parse(credentialJson);
-      const res = await fetch('http://localhost:3001/verify', { // Change URL to your BE Verification service
+      const res = await fetch(process.env.REACT_APP_VERIFICATION_URL!, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(parsed)
       });
+
       const data = await res.json();
       if (!res.ok) setError(data.message || 'Error verifying credential');
       else setResponse(JSON.stringify(data, null, 2));
